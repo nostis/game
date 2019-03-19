@@ -49,6 +49,6 @@ public class Obstacle extends PApplet{
 
     void display(PApplet screen){
         screen.fill(255);
-        screen.rect(30, 20, 55, 55);
+        screen.rect(this.posX, this.posY, this.width, this.height);
     }
 }
