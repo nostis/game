@@ -12,11 +12,11 @@ public class MainProcessingClass extends PApplet{
     }
     
     public void setup() {
-        r = (Obstacle) createShape(RECT, 0, 0, 100, 50);
+        r = new Obstacle(0, 0, 10, 100);
     }
 
     public void draw() {
-        shape(r);
+        r.display(this);
     }
     
     public void keyPressed() {
