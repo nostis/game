@@ -8,7 +8,7 @@ public class Obstacle extends PApplet{
     private int height;
     private int width;
 
-    public Obstacle(int posX, int posY, int height, int width){
+    public Obstacle(int posX, int posY, int width, int height){
         this.posX = posX;
         this.posY = posY;
         this.height = height;
@@ -51,4 +51,5 @@ public class Obstacle extends PApplet{
         screen.fill(255);
         screen.rect(this.posX, this.posY, this.width, this.height);
     }
+
 }
