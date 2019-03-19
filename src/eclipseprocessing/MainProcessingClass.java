@@ -5,31 +5,56 @@ import processing.core.*;
 public class MainProcessingClass extends PApplet{
     public OtherClass extra;
     private boolean fullscreen=false;
-    private Obstacle r;
-    private Player p;
+    private Obstacle obstacle;
+    private Player player;
+    private float timePassed;
+    private float timePrevious;
+    private float velocityX;
+    private float velocityY;
     
     public void settings() {
         this.size(200, 200);
     }
     
     public void setup() {
-        r = new Obstacle(0, 190, 200, 10);
-        p = new Player(0, 180, 10, 10);
+        obstacle = new Obstacle(0, 190, 200, 10);
+        player = new Player(0, 180, 10, 10);
+        timePassed = millis();
+        timePrevious = 0f;
+        velocityX = 0f;
+        velocityY = 0f;
     }
 
     public void draw() {
+
+        timePassed = millis() - timePrevious;
+
+        timePrevious = millis();
+
         clear();
-        r.display(this);
-        p.display(this);
+
+        player.display(this);
+
+
+        if(keyPressed){
+            if(keyCode == LEFT) {
+                velocityX -= (timePassed / 100f * player.SPEED);
+            }
+            if(keyCode == RIGHT){
+                velocityX += (timePassed / 100f * player.SPEED);
+            }
+            if(keyCode == UP){
+                velocityY -= (timePassed / 100f * player.SPEED);
+            }
+            if(keyCode == DOWN){
+                velocityY += (timePassed / 100f * player.SPEED);
+            }
+        }
+
+        player.setPosition(velocityX, velocityY);
+
     }
     
     public void keyPressed() {
-        if(keyCode == LEFT){
-            p.move(-5, 0);
-
-        }
-        if(keyCode == RIGHT){
-            p.move(5, -0);
-        }
     }
 }

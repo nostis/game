@@ -3,31 +3,31 @@ import processing.core.*;
 
 public class Obstacle extends PApplet{
 
-    private int posX;
-    private int posY;
+    private float posX;
+    private float posY;
     private int height;
     private int width;
 
-    public Obstacle(int posX, int posY, int width, int height){
+    public Obstacle(float posX, float posY, int width, int height){
         this.posX = posX;
         this.posY = posY;
         this.height = height;
         this.width = width;
     }
 
-    public int getPosX() {
+    public float getPosX() {
         return posX;
     }
 
-    public void setPosX(int posX) {
+    public void setPosX(float posX) {
         this.posX = posX;
     }
 
-    public int getPosY() {
+    public float getPosY() {
         return posY;
     }
 
-    public void setPosY(int posY) {
+    public void setPosY(float posY) {
         this.posY = posY;
     }
 
