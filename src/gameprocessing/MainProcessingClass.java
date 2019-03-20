@@ -1,9 +1,8 @@
-package eclipseprocessing;
+package gameprocessing;
 import processing.core.*;
 
 
 public class MainProcessingClass extends PApplet{
-    public OtherClass extra;
     private boolean fullscreen=false;
     private Obstacle obstacle;
     private Player player;
@@ -19,11 +18,11 @@ public class MainProcessingClass extends PApplet{
     
     public void setup() {
         obstacle = new Obstacle(0, 190, 200, 10);
-        player = new Player(0, 180, 10, 10);
+        player = new Player(0, 100, 10, 10);
         timePassed = millis();
         timePrevious = 0f;
-        velocityX = 0f;
-        velocityY = 0f;
+        velocityX = 0;
+        velocityY = 0;
         acceleration = 1f;
     }
 
@@ -33,9 +32,7 @@ public class MainProcessingClass extends PApplet{
 
         timePrevious = millis();
 
-        clear();
 
-        player.display(this);
 
         if(keyPressed){
             if(keyCode == LEFT) {
@@ -66,7 +63,13 @@ public class MainProcessingClass extends PApplet{
 
         velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX)); //nie boj sie tego xD
         velocityY += Math.signum(velocityY) * -1.0F * Math.min(0.5F, Math.abs(velocityY));
+
         player.move(velocityX * timePassed / 100, velocityY * timePassed / 100);
+
+        clear();
+
+        player.display(this);
+
     }
     
     public void keyPressed() {

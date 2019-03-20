@@ -1,4 +1,4 @@
-package eclipseprocessing;
+package gameprocessing;
 
 public class Player extends Obstacle {
     public final static float MAXSPEED = 10f;

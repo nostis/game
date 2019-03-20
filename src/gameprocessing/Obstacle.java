@@ -1,4 +1,4 @@
-package eclipseprocessing;
+package gameprocessing;
 import processing.core.*;
 
 public class Obstacle extends PApplet{
