@@ -52,4 +52,10 @@ public class Obstacle extends PApplet{
         screen.rect(this.posX, this.posY, this.width, this.height);
     }
 
+    boolean isCollidingWith(Obstacle obstacle){
+        return this.getPosX() < obstacle.getPosX() + obstacle.getWidth() &&
+                this.getPosX() + this.getWidth() > obstacle.getPosX() &&
+                this.getPosY() < obstacle.getPosY() + obstacle.getHeight() &&
+                this.getPosY() + this.getHeight() > obstacle.getPosY();
+    }
 }

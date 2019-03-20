@@ -5,7 +5,6 @@ public class Player extends Obstacle {
 
     public Player(int posX, int posY, int width, int height){
         super(posX, posY, width, height);
-
     }
 
     public void move(float x, float y){
@@ -17,7 +16,5 @@ public class Player extends Obstacle {
         this.setPosX(x);
         this.setPosY(y);
     }
-
-
 
 }
