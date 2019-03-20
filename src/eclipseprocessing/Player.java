@@ -1,7 +1,7 @@
 package eclipseprocessing;
 
 public class Player extends Obstacle {
-    public final static float SPEED = 10f;
+    public final static float MAXSPEED = 10f;
 
     public Player(int posX, int posY, int width, int height){
         super(posX, posY, width, height);
@@ -17,5 +17,7 @@ public class Player extends Obstacle {
         this.setPosX(x);
         this.setPosY(y);
     }
+
+
 
 }

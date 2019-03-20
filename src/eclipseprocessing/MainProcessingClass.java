@@ -11,6 +11,7 @@ public class MainProcessingClass extends PApplet{
     private float timePrevious;
     private float velocityX;
     private float velocityY;
+    private float acceleration;
     
     public void settings() {
         this.size(200, 200);
@@ -23,6 +24,7 @@ public class MainProcessingClass extends PApplet{
         timePrevious = 0f;
         velocityX = 0f;
         velocityY = 0f;
+        acceleration = 1f;
     }
 
     public void draw() {
@@ -35,24 +37,36 @@ public class MainProcessingClass extends PApplet{
 
         player.display(this);
 
-
         if(keyPressed){
             if(keyCode == LEFT) {
-                velocityX -= (timePassed / 100f * player.SPEED);
+                velocityX -= acceleration;
+                if(velocityX < -player.MAXSPEED){
+                    velocityX = -player.MAXSPEED;
+                }
             }
             if(keyCode == RIGHT){
-                velocityX += (timePassed / 100f * player.SPEED);
+                velocityX += acceleration;
+                if(velocityX > player.MAXSPEED){
+                    velocityX = player.MAXSPEED;
+                }
             }
             if(keyCode == UP){
-                velocityY -= (timePassed / 100f * player.SPEED);
+                velocityY -= acceleration;
+                if(velocityY < -player.MAXSPEED){
+                    velocityY = -player.MAXSPEED;
+                }
             }
             if(keyCode == DOWN){
-                velocityY += (timePassed / 100f * player.SPEED);
+                velocityY += acceleration;
+                if(velocityY > player.MAXSPEED){
+                    velocityY = player.MAXSPEED;
+                }
             }
         }
 
-        player.setPosition(velocityX, velocityY);
-
+        velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX)); //nie boj sie tego xD
+        velocityY += Math.signum(velocityY) * -1.0F * Math.min(0.5F, Math.abs(velocityY));
+        player.move(velocityX * timePassed / 100, velocityY * timePassed / 100);
     }
     
     public void keyPressed() {
