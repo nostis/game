@@ -22,20 +22,23 @@ public class MainProcessingClass extends PApplet {
     private boolean isLeft;
     private boolean isRight;
 
+    float lastX;
+    float lastY;
+
     public void settings() {
-        this.size(200, 200);
+        this.size(1024, 768);
     }
 
     public void setup() {
         floor = new Obstacle(0, 190, 200, 10);
         cloud = new Obstacle(100, 50, 80, 20);
-        player = new Player(0, 50, 10, 10);
+        player = new Player(50, 50, 10, 10);
         obstacles = new ArrayList<>();
         timePassed = millis();
         timePrevious = 0f;
         velocityX = 0f;
         velocityY = 0f;
-        acceleration = 1f;
+        acceleration = 2f;
 
         obstacles.add(floor);
         obstacles.add(cloud);
@@ -44,6 +47,9 @@ public class MainProcessingClass extends PApplet {
         isLeft = false;
         isRight = false;
         isUp = false;
+
+        lastX = 0;
+        lastY = 0;
     }
 
     public void draw() {
@@ -51,20 +57,7 @@ public class MainProcessingClass extends PApplet {
 
         timePrevious = millis();
 
-        if (keyPressed) {
-            if (keyCode == LEFT) {
-                isLeft = true;
-            }
-            if (keyCode == RIGHT) {
-                isRight = true;
-            }
-            if (keyCode == UP) {
-                isUp = true;
-            }
-            if (keyCode == DOWN) {
-                isDown = true;
-            }
-        }
+        timePassed /= 100;
 
         if (isLeft) {
             velocityX -= acceleration;
@@ -91,21 +84,40 @@ public class MainProcessingClass extends PApplet {
             }
         }
 
-        velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX)); //nie boj sie tego xD
-        velocityY += Math.signum(velocityY) * -1.0F * Math.min(0.5F, Math.abs(velocityY)); //stopping player
+        //velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX)); //nie boj sie tego xD
+        //velocityY += Math.signum(velocityY) * -1.0F * Math.min(0.5F, Math.abs(velocityY)); //stopping player
 
-        float lastX = player.getPosX();
-        float lastY = player.getPosY();
+        lastX = player.getPosX();
+        lastY = player.getPosY();
 
-        player.move(velocityX * timePassed / 100, velocityY * timePassed / 100);
+        player.move(velocityX * timePassed, velocityY * timePassed);
 
         for (Obstacle ob : obstacles) {
             if (player.isCollidingWith(ob)) {
-                player.setPosition(lastX, lastY);
+                /*player.setPosition(lastX, lastY);
                 velocityX = 0;
-                velocityY = 0;
+                velocityY = 0;*/
+                if((player.getPosX() + player.getWidth() > ob.getPosX()) || player.getPosX() < ob.getPosX() + ob.getWidth()){
+                    //velocityX = 0;
+                    velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX));
+                    System.out.println("colliding x");
+                }
+                if((player.getPosY() + player.getHeight() > ob.getPosY()) || player.getPosY() < ob.getPosY() + ob.getHeight()){
+                    velocityY = 0;
+                    player.setPosY(lastY);
+                    System.out.println("colliding y");
+                }
+            }
+            else{
+                velocityY += 0.2f; //gravity
             }
         }
+
+        //velocityY += 0.2f;
+
+        System.out.println(player.getPosX());
+
+        //player.moveWithCollisions(floor, velocityX * timePassed, velocityY * timePassed);
 
         clear();
 
@@ -131,4 +143,20 @@ public class MainProcessingClass extends PApplet {
             isDown = false;
         }
     }
+
+    public void keyPressed(){
+        if (keyCode == LEFT) {
+            isLeft = true;
+        }
+        if (keyCode == RIGHT) {
+            isRight = true;
+        }
+        if (keyCode == UP) {
+            isUp = true;
+        }
+        if (keyCode == DOWN) {
+            isDown = true;
+        }
+    }
+
 }
