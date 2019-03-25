@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainProcessingClass extends PApplet{
-    private boolean fullscreen=false;
+public class MainProcessingClass extends PApplet {
+    private boolean fullscreen = false;
     private Obstacle floor;
     private Obstacle cloud;
     private List<Obstacle> obstacles;
@@ -16,11 +16,16 @@ public class MainProcessingClass extends PApplet{
     private float velocityX;
     private float velocityY;
     private float acceleration;
-    
+
+    private boolean isUp;
+    private boolean isDown;
+    private boolean isLeft;
+    private boolean isRight;
+
     public void settings() {
         this.size(200, 200);
     }
-    
+
     public void setup() {
         floor = new Obstacle(0, 190, 200, 10);
         cloud = new Obstacle(100, 50, 80, 20);
@@ -34,6 +39,11 @@ public class MainProcessingClass extends PApplet{
 
         obstacles.add(floor);
         obstacles.add(cloud);
+
+        isDown = false;
+        isLeft = false;
+        isRight = false;
+        isUp = false;
     }
 
     public void draw() {
@@ -41,30 +51,43 @@ public class MainProcessingClass extends PApplet{
 
         timePrevious = millis();
 
-        if(keyPressed){
-            if(keyCode == LEFT) {
-                velocityX -= acceleration;
-                if(velocityX < -player.MAXSPEED){
-                    velocityX = -player.MAXSPEED;
-                }
+        if (keyPressed) {
+            if (keyCode == LEFT) {
+                isLeft = true;
             }
-            if(keyCode == RIGHT){
-                velocityX += acceleration;
-                if(velocityX > player.MAXSPEED){
-                    velocityX = player.MAXSPEED;
-                }
+            if (keyCode == RIGHT) {
+                isRight = true;
             }
-            if(keyCode == UP){
-                velocityY -= acceleration;
-                if(velocityY < -player.MAXSPEED){
-                    velocityY = -player.MAXSPEED;
-                }
+            if (keyCode == UP) {
+                isUp = true;
             }
-            if(keyCode == DOWN){
-                velocityY += acceleration;
-                if(velocityY > player.MAXSPEED){
-                    velocityY = player.MAXSPEED;
-                }
+            if (keyCode == DOWN) {
+                isDown = true;
+            }
+        }
+
+        if (isLeft) {
+            velocityX -= acceleration;
+            if (velocityX < -player.MAXSPEED) {
+                velocityX = -player.MAXSPEED;
+            }
+        }
+        if (isRight) {
+            velocityX += acceleration;
+            if (velocityX > player.MAXSPEED) {
+                velocityX = player.MAXSPEED;
+            }
+        }
+        if (isUp) {
+            velocityY -= acceleration;
+            if (velocityY < -player.MAXSPEED) {
+                velocityY = -player.MAXSPEED;
+            }
+        }
+        if (isDown) {
+            velocityY += acceleration;
+            if (velocityY > player.MAXSPEED) {
+                velocityY = player.MAXSPEED;
             }
         }
 
@@ -76,8 +99,8 @@ public class MainProcessingClass extends PApplet{
 
         player.move(velocityX * timePassed / 100, velocityY * timePassed / 100);
 
-        for(Obstacle ob : obstacles){
-            if(player.isCollidingWith(ob)){
+        for (Obstacle ob : obstacles) {
+            if (player.isCollidingWith(ob)) {
                 player.setPosition(lastX, lastY);
                 velocityX = 0;
                 velocityY = 0;
@@ -86,14 +109,26 @@ public class MainProcessingClass extends PApplet{
 
         clear();
 
-        for(Obstacle ob : obstacles){
+        for (Obstacle ob : obstacles) {
             ob.display(this);
         }
 
         player.display(this);
 
     }
-    
-    public void keyPressed() {
+
+    public void keyReleased() {
+        if (keyCode == LEFT) {
+            isLeft = false;
+        }
+        if (keyCode == RIGHT) {
+            isRight = false;
+        }
+        if (keyCode == UP) {
+            isUp = false;
+        }
+        if (keyCode == DOWN) {
+            isDown = false;
+        }
     }
 }
