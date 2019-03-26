@@ -58,4 +58,6 @@ public class Obstacle extends PApplet{
                 this.getPosY() < obstacle.getPosY() + obstacle.getHeight() &&
                 this.getPosY() + this.getHeight() > obstacle.getPosY();
     }
+
+
 }

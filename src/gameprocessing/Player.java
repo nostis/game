@@ -17,4 +17,23 @@ public class Player extends Obstacle {
         this.setPosY(y);
     }
 
+
+    public float getXDepth(Obstacle ob){
+        if((this.getPosX() + this.getWidth() > ob.getPosX()) && (this.getPosX() < ob.getPosX())){
+            return -(ob.getPosX() - this.getPosX()) + this.getWidth();
+        }
+        else{
+            return -(ob.getPosX() + (ob.getWidth() - this.getPosX()));
+        }
+    }
+
+    public float getYDepth(Obstacle ob){
+        if((this.getPosY() + this.getHeight() > ob.getPosY()) && (this.getPosY() < ob.getPosY())){
+            return -(ob.getPosY() - this.getPosY()) + this.getHeight();
+        }
+        else{
+            return -(ob.getPosY() + (ob.getHeight() - this.getPosY()));
+        }
+    }
+
 }
