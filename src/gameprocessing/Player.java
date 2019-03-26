@@ -23,7 +23,7 @@ public class Player extends Obstacle {
 
         for(Obstacle ob : obstacles){
             if(Collider.areColliding(this, ob)){
-               this.setPosX(this.getPosX() - Collider.getDistanceBetweenCentersX(this, ob));
+               this.setPosX(this.getPosX() - Collider.getDepthX(this, ob));
                this.setVelocityX(0);
 
             }
@@ -33,7 +33,7 @@ public class Player extends Obstacle {
 
         for(Obstacle ob : obstacles){
             if(Collider.areColliding(this, ob)){
-                this.setPosY(this.getPosY() - Collider.getDistanceBetweenCentersY(this, ob));
+                this.setPosY(this.getPosY() - Collider.getDepthY(this, ob));
                 this.setVelocityY(0);
                 this.updateVelX(Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX))); //stopping player in x
 

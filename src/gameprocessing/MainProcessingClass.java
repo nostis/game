@@ -23,7 +23,6 @@ public class MainProcessingClass extends PApplet {
 
     public void settings() {
         this.size(1024, 768);
-
     }
 
     public void setup() {
@@ -99,7 +98,7 @@ public class MainProcessingClass extends PApplet {
 
         clear();
 
-        for (Obstacle ob : obstacles) {
+        for(Obstacle ob : obstacles) {
             ob.display(this);
         }
 
