@@ -22,16 +22,14 @@ public class MainProcessingClass extends PApplet {
     private boolean isLeft;
     private boolean isRight;
 
-    float lastX;
-    float lastY;
-
     public void settings() {
-        this.size(1024, 768);
+        this.size(200, 200);
+
     }
 
     public void setup() {
         floor = new Obstacle(0, 190, 200, 10);
-        cloud = new Obstacle(100, 50, 80, 20);
+        cloud = new Obstacle(50, 50, 80, 20);
         player = new Player(50, 50, 10, 10);
         obstacles = new ArrayList<>();
         timePassed = millis();
@@ -47,9 +45,6 @@ public class MainProcessingClass extends PApplet {
         isLeft = false;
         isRight = false;
         isUp = false;
-
-        lastX = 0;
-        lastY = 0;
     }
 
     public void draw() {
@@ -84,40 +79,27 @@ public class MainProcessingClass extends PApplet {
             }
         }
 
-        //velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX)); //nie boj sie tego xD
-        //velocityY += Math.signum(velocityY) * -1.0F * Math.min(0.5F, Math.abs(velocityY)); //stopping player
 
-        lastX = player.getPosX();
-        lastY = player.getPosY();
+        player.move(velocityX * timePassed, 0);
 
-        player.move(velocityX * timePassed, velocityY * timePassed);
-
-        for (Obstacle ob : obstacles) {
-            if (player.isCollidingWith(ob)) {
-                /*player.setPosition(lastX, lastY);
-                velocityX = 0;
-                velocityY = 0;*/
-                if((player.getPosX() + player.getWidth() > ob.getPosX()) || player.getPosX() < ob.getPosX() + ob.getWidth()){
-                    //velocityX = 0;
-                    velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX));
-                    System.out.println("colliding x");
-                }
-                if((player.getPosY() + player.getHeight() > ob.getPosY()) || player.getPosY() < ob.getPosY() + ob.getHeight()){
-                    velocityY = 0;
-                    player.setPosY(lastY);
-                    System.out.println("colliding y");
-                }
-            }
-            else{
-                velocityY += 0.2f; //gravity
+        for(Obstacle ob : obstacles){
+            if(player.isCollidingWith(ob)){
+                player.setPosX(player.getPosX() - player.getXDepth(ob));
             }
         }
 
-        //velocityY += 0.2f;
+        player.move(0, velocityY * timePassed);
 
-        System.out.println(player.getPosX());
+        for(Obstacle ob : obstacles){
 
-        //player.moveWithCollisions(floor, velocityX * timePassed, velocityY * timePassed);
+            if(player.isCollidingWith(ob)){
+                player.setPosY(player.getPosY() - player.getYDepth(ob));
+                velocityY = 0;
+            }
+        }
+
+        velocityX += Math.signum(velocityX) * -1.0F * Math.min(0.5F, Math.abs(velocityX)); //stopping player in x
+        velocityY += 0.2f; //gravity
 
         clear();
 
