@@ -11,6 +11,7 @@ public class Game extends PApplet {
     private Obstacle floor;
     private Obstacle cloud;
     private List<Obstacle> obstacles;
+    private List<PImage> animations;
     private Player player;
 
     private float timePassed;
@@ -23,13 +24,60 @@ public class Game extends PApplet {
 
     public void settings() {
         this.size(1024, 768);
+
     }
 
     public void setup() {
         floor = new Obstacle(0, 190, 200, 10);
         cloud = new Obstacle(50, 50, 80, 20);
 
-        player = new Player(50, 50, 10, 10);
+        animations = new ArrayList<>();
+
+        animations.add(loadImage("PNG\\p1_walk01.png")); // many same images to 'slow down' player; need better implementation
+        animations.add(loadImage("PNG\\p1_walk01.png"));
+        animations.add(loadImage("PNG\\p1_walk01.png"));
+
+        animations.add(loadImage("PNG\\p1_walk02.png"));
+        animations.add(loadImage("PNG\\p1_walk02.png"));
+        animations.add(loadImage("PNG\\p1_walk02.png"));
+
+        animations.add(loadImage("PNG\\p1_walk03.png"));
+        animations.add(loadImage("PNG\\p1_walk03.png"));
+        animations.add(loadImage("PNG\\p1_walk03.png"));
+
+        animations.add(loadImage("PNG\\p1_walk04.png"));
+        animations.add(loadImage("PNG\\p1_walk04.png"));
+        animations.add(loadImage("PNG\\p1_walk04.png"));
+
+        animations.add(loadImage("PNG\\p1_walk05.png"));
+        animations.add(loadImage("PNG\\p1_walk05.png"));
+        animations.add(loadImage("PNG\\p1_walk05.png"));
+
+        animations.add(loadImage("PNG\\p1_walk06.png"));
+        animations.add(loadImage("PNG\\p1_walk06.png"));
+        animations.add(loadImage("PNG\\p1_walk06.png"));
+
+        animations.add(loadImage("PNG\\p1_walk07.png"));
+        animations.add(loadImage("PNG\\p1_walk07.png"));
+        animations.add(loadImage("PNG\\p1_walk07.png"));
+
+        animations.add(loadImage("PNG\\p1_walk08.png"));
+        animations.add(loadImage("PNG\\p1_walk08.png"));
+        animations.add(loadImage("PNG\\p1_walk08.png"));
+
+        animations.add(loadImage("PNG\\p1_walk09.png"));
+        animations.add(loadImage("PNG\\p1_walk09.png"));
+        animations.add(loadImage("PNG\\p1_walk09.png"));
+
+        animations.add(loadImage("PNG\\p1_walk10.png"));
+        animations.add(loadImage("PNG\\p1_walk10.png"));
+        animations.add(loadImage("PNG\\p1_walk10.png"));
+
+        animations.add(loadImage("PNG\\p1_walk11.png"));
+        animations.add(loadImage("PNG\\p1_walk11.png"));
+        animations.add(loadImage("PNG\\p1_walk11.png"));
+
+        player = new Player(50, 50, 10, 10, animations, loadImage("PNG\\p1_jump.png"));
 
         obstacles = new ArrayList<>();
 
@@ -39,8 +87,6 @@ public class Game extends PApplet {
         obstacles.add(floor);
         obstacles.add(cloud);
 
-        obstacles.add(new Obstacle(250, 20, 100, 30));
-        obstacles.add(new Obstacle(400, 20, 100, 30));
         obstacles.add(new Obstacle(550, 20, 100, 30));
         obstacles.add(new Obstacle(700, 20, 100, 30));
         obstacles.add(new Obstacle(850, 20, 100, 30));
@@ -49,9 +95,9 @@ public class Game extends PApplet {
         obstacles.add(new Obstacle(400, 120, 100, 30));
         obstacles.add(new Obstacle(550, 170, 100, 30));
         obstacles.add(new Obstacle(700, 220, 100, 30));
-        obstacles.add(new Obstacle(850, 270, 100, 30));
+        obstacles.add(new Obstacle(840, 300, 100, 30));
 
-        obstacles.add(new Obstacle(870, 320, 100, 30));
+        obstacles.add(new Obstacle(870, 250, 100, 30));
         obstacles.add(new Obstacle(700, 370, 100, 30));
         obstacles.add(new Obstacle(550, 420, 100, 30));
         obstacles.add(new Obstacle(400, 470, 100, 30));
@@ -66,14 +112,12 @@ public class Game extends PApplet {
         isLeft = false;
         isRight = false;
         isUp = false;
+
     }
 
     public void draw() {
 
         timePassed = millis() - timePrevious;
-
-        System.out.println("FPS: " + 1.f / (timePassed / 1000));
-
         timePrevious = millis();
         timePassed /= 100;
 
@@ -105,6 +149,8 @@ public class Game extends PApplet {
         player.updatePosAndCheckCollisions(timePassed, obstacles);
 
         clear();
+
+        this.background(93, 188, 210);
 
         for(Obstacle ob : obstacles) {
             ob.display(this);
@@ -141,6 +187,12 @@ public class Game extends PApplet {
         }
         if (keyCode == DOWN) {
             isDown = true;
+        }
+        if(key == 'R' || key == 'r'){
+            player.setPosX(50);
+            player.setPosY(50);
+            player.setVelocityY(0);
+            player.setVelocityX(0);
         }
     }
 
