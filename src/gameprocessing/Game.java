@@ -28,6 +28,8 @@ public class Game extends PApplet {
     }
 
     public void setup() {
+        noStroke();
+
         floor = new Obstacle(0, 190, 200, 10);
         cloud = new Obstacle(50, 50, 80, 20);
 
@@ -77,7 +79,7 @@ public class Game extends PApplet {
         animations.add(loadImage("PNG\\p1_walk11.png"));
         animations.add(loadImage("PNG\\p1_walk11.png"));
 
-        player = new Player(50, 50, 10, 10, animations, loadImage("PNG\\p1_jump.png"));
+        player = new Player(50, 50, 10, 10, animations, loadImage("PNG\\p1_jump.png"), loadImage("PNG\\p1_walk02.png"));
 
         obstacles = new ArrayList<>();
 

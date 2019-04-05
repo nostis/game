@@ -12,6 +12,7 @@ public class Player extends Obstacle {
     public final float JUMP_DISTANCE = 25f;
 
     private PImage jumpingAnimation;
+    private PImage standingAnimation;
     private PImage actualAnimation;
     private List<PImage> animations;
     private int whichAnimation;
@@ -23,10 +24,11 @@ public class Player extends Obstacle {
     private boolean wasLeft;
     private boolean isMoving;
 
-    public Player(int posX, int posY, int width, int height, List<PImage> animations, PImage jumpingAnimation) {
+    public Player(int posX, int posY, int width, int height, List<PImage> animations, PImage jumpingAnimation, PImage standingAnimation) {
         super(posX, posY, width, height);
 
         this.jumpingAnimation = jumpingAnimation;
+        this.standingAnimation = standingAnimation;
         this.animations = animations;
 
         velocityX = 0.f;
@@ -44,6 +46,7 @@ public class Player extends Obstacle {
         }
 
         jumpingAnimation.resize(38, 53);
+        standingAnimation.resize(40, 54);
 
         this.setWidth(animations.get(0).width);
         this.setHeight(animations.get(0).height);
@@ -137,6 +140,16 @@ public class Player extends Obstacle {
         if(!isOnGround){
             actualAnimation = jumpingAnimation;
         }
+        else if(isOnGround){//to change animation to normal when player fell down, and is on ground
+            if(isMoving){
+                whichAnimation++;
+                actualAnimation = animations.get(whichAnimation);
+            }
+            else{
+                whichAnimation = 0;
+                actualAnimation = standingAnimation;
+            }
+        }
         else{
             actualAnimation = animations.get(whichAnimation);
         }
@@ -150,12 +163,6 @@ public class Player extends Obstacle {
         else{
             screen.image(actualAnimation, this.getPosX(), this.getPosY());
         }
-
-        if(isMoving && isOnGround){ //to change animation to normal when player fell down, and is on ground
-            whichAnimation++;
-            actualAnimation = animations.get(whichAnimation);
-        }
-
     }
 
 }
